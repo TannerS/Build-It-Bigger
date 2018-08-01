@@ -1,3 +1,4 @@
+
 .gradle
 /local.properties
 /.idea/workspace.xml
@@ -11,6 +12,7 @@
 
 ### AndroidStudio ###
 # Covers files to be ignored for android development using Android Studio.
+
 
 # Built application files
 *.apk
@@ -28,12 +30,18 @@ gen/
 out/
 
 # Gradle files
+
 .gradle
 .gradle/
 build/
 
 # Signing files
 .signing/
+
+=======
+.gradle/
+build/
+
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -43,6 +51,7 @@ proguard/
 
 # Log Files
 *.log
+
 
 # Android Studio
 /*/build/
@@ -223,4 +232,43 @@ modules.xml
 
 
 # End of https://www.gitignore.io/api/java,intellij+all,androidstudio
+
+=======
+# Android Studio Navigation editor temp files
+.navigation/
+
+# Android Studio captures folder
+captures/
+
+# IntelliJ
+*.iml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/assetWizardSettings.xml
+.idea/dictionaries
+.idea/libraries
+.idea/caches
+
+# Keystore files
+# Uncomment the following line if you do not want to check your keystore files in.
+#*.jks
+
+# External native build folder generated in Android Studio 2.2 and later
+.externalNativeBuild
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# Freeline
+freeline.py
+freeline/
+freeline_project_description.json
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+fastlane/readme.md
 
