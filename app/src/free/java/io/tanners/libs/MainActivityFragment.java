@@ -1,4 +1,4 @@
-package io.tanners.libs.free;
+package io.tanners.libs;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import io.tanners.libs.R;
 
 public class MainActivityFragment extends Fragment {
 

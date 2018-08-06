@@ -37,11 +37,11 @@ android {
 
         productFlavors {
             free {
-                applicationId "io.tanners.libs.free"
+//                applicationId "io.tanners.libs.free"
                 dimension "tier"
             }
             paid {
-                applicationId "io.tanners.libs.paid"
+//                applicationId "io.tanners.libs.paid"
                 dimension "tier"
             }
         }
