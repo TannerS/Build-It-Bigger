@@ -1,5 +1,6 @@
 package io.tanners.libs;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.os.Bundle;
@@ -54,8 +55,13 @@ public class MainActivityFragmentRoot extends Fragment {
         return new EndpointsAsyncTask.EndpointUtil<JokeBean>() {
             @Override
             public void onPostDo(JokeBean mResult) {
+                mJoke = new MutableLiveData<JokeBean>();
                 mJoke.setValue(mResult);
-                Log.i("DATA", mJoke.getValue().getMJoke());
+
+
+
+
+                Log.i("DATA", mResult.getMJoke());
                 // TODO call acivity
 
             }

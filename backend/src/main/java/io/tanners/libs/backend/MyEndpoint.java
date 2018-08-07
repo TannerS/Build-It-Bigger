@@ -21,8 +21,16 @@ public class MyEndpoint {
     @ApiMethod(name = "sendJoke")
     public JokeBean sendJoke() {
         Joke mJoke = (new Jokester()).provideJoke();
+
+
         JokeBean mBean = new JokeBean();
+
         mBean.setmJoke(mJoke.getmJoke());
+        mBean.setmJoke("HELLO");
+
+
+
+
         return mBean;
     }
 }

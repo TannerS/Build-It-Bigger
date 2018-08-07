@@ -15,6 +15,8 @@ public class JokeRepo {
     {
         Scanner mScanner = new Scanner("../assets/jokes");
 
+
+
         ArrayList<Joke> mJokes = new ArrayList<Joke>();
 
         while(mScanner.hasNext())

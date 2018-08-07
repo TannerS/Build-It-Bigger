@@ -1,6 +1,7 @@
 package io.tanners.libs;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 public class EndpointsAsyncTask<T> extends AsyncTask<Void, Void, T> {
     private EndpointsAsyncTask.EndpointUtil mCallback;
@@ -17,6 +18,11 @@ public class EndpointsAsyncTask<T> extends AsyncTask<Void, Void, T> {
 
     @Override
     protected void onPostExecute(T mResult) {
+
+
+        if(mResult == null)
+            Log.i("DATA" , "IS NULL");
+
         mCallback.onPostDo(mResult);
     }
 
