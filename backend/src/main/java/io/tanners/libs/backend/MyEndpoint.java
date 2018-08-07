@@ -18,7 +18,7 @@ import io.tanners.libs.jokester.model.JokeWrapper;
 )
 public class MyEndpoint {
     @ApiMethod(name = "sendJoke")
-    public JokeWrapper sendJoke() {
+    public JokeWrapper sendJoke(Integer mJokeNumber) {
         return (new Jokester()).provideJokes();
     }
 }
