@@ -11,16 +11,12 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import java.io.IOException;
-
 import io.tanners.libs.backend.myApi.MyApi;
-import io.tanners.libs.backend.myApi.model.Joke;
-//import io.tanners.libs.jokester.model.Joke;
+import io.tanners.libs.backend.myApi.model.JokeBean;
 
 public class MainActivityFragmentRoot extends Fragment {
-//    protected MainViewModel mMainViewModel;
     protected Context mContext;
-//    protected LiveData<JokeWrapper> mWrapper;
-    protected MutableLiveData<Joke> mJoke;
+    protected MutableLiveData<JokeBean> mJoke;
     protected static MyApi myApiService = null;
 
 
@@ -44,7 +40,7 @@ public class MainActivityFragmentRoot extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        new EndpointsAsyncTask<Joke>(createEndpointCallBack()).execute();
+        new EndpointsAsyncTask<JokeBean>(createEndpointCallBack()).execute();
     }
 
     @Override
@@ -53,11 +49,11 @@ public class MainActivityFragmentRoot extends Fragment {
         mContext = context;
     }
 
-    private EndpointsAsyncTask.EndpointUtil<Joke> createEndpointCallBack()
+    private EndpointsAsyncTask.EndpointUtil<JokeBean> createEndpointCallBack()
     {
-        return new EndpointsAsyncTask.EndpointUtil<Joke>() {
+        return new EndpointsAsyncTask.EndpointUtil<JokeBean>() {
             @Override
-            public void onPostDo(Joke mResult) {
+            public void onPostDo(JokeBean mResult) {
                 mJoke.setValue(mResult);
                 Log.i("DATA", mJoke.getValue().getMJoke());
                 // TODO call acivity
@@ -65,7 +61,7 @@ public class MainActivityFragmentRoot extends Fragment {
             }
 
             @Override
-            public Joke onDo() {
+            public JokeBean onDo() {
                 if(myApiService == null) {  // Only do this once
                     MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                             new AndroidJsonFactory(), null)
@@ -90,55 +86,6 @@ public class MainActivityFragmentRoot extends Fragment {
             }
         };
     }
-
-//    private static class EndpointsAsyncTask extends AsyncTask<Void, Void, Joke> {
-//        private static MyApi myApiService = null;
-//        private EndpointUtil mCallback;
-//
-//        public EndpointsAsyncTask(EndpointUtil mCallback)
-//        {
-//            this.mCallback = mCallback;
-//        }
-//
-//        @Override
-//        protected Joke doInBackground(Void... params) {
-//            if(myApiService == null) {  // Only do this once
-//                MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
-//                        new AndroidJsonFactory(), null)
-//                        // options for running against local devappserver
-//                        // - 10.0.2.2 is localhost's IP address in Android emulator
-//                        // - turn off compression when running against local devappserver
-//                        .setRootUrl("http://10.0.2.2:8080/_ah/api/")
-//                        .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-//                            @Override
-//                            public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-//                                abstractGoogleClientRequest.setDisableGZipContent(true);
-//                            }
-//                        });
-//                myApiService = builder.build();
-//            }
-//
-//            try {
-//                return myApiService.sendJoke().execute().getData();
-//
-//            } catch (IOException e) {
-//                return null;
-//            }
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Joke mResult) {
-//
-//
-//            mJoke.setValue(mResult);
-//        }
-//
-//        public interface EndpointUtil {
-//            public void onPostDo();
-//            public void onDo();
-//        }
-//    }
-
 }
 
 

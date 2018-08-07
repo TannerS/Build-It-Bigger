@@ -1,11 +1,10 @@
 package io.tanners.libs.jokester.repo;
 
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Scanner;
 
 import io.tanners.libs.jokester.model.Joke;
+
 
 /**
  * This can be any way to get the data, for now let's just keep it simple
