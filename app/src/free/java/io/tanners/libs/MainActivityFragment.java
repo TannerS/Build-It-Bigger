@@ -3,23 +3,21 @@ package io.tanners.libs;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends MainActivityFragmentRoot {
     private View view;
 
     public MainActivityFragment() {
         // Required empty public constructor
     }
 
-    public static MainActivityFragmentRoot newInstance() {
-        return new MainActivityFragmentRoot();
+    public static MainActivityFragment newInstance() {
+        return new MainActivityFragment();
     }
 
     @Override

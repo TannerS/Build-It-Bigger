@@ -1,19 +1,22 @@
-package io.tanners.libs.free;
+package io.tanners.libs;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends MainActivityFragmentRoot {
+    private View view;
+
     public MainActivityFragment() {
         // Required empty public constructor
     }
 
-    public static MainActivityFragment newInstance(String param1, String param2) {
+    public static MainActivityFragment newInstance() {
         return new MainActivityFragment();
     }
 
@@ -26,13 +29,21 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_activity, container, false);
+        view = inflater.inflate(R.layout.fragment_main_activity, container, false);
+        return view;
     }
 
-
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
     }
+
+
 }
+
+

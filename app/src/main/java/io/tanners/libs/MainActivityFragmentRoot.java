@@ -1,37 +1,28 @@
 package io.tanners.libs;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+import android.util.Log;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
-
 import java.io.IOException;
-import java.util.List;
 
-import io.tanners.libs.aac.JokeRepository;
-import io.tanners.libs.aac.MainViewModel;
-import io.tanners.libs.aac.MainViewModelFactory;
 import io.tanners.libs.backend.myApi.MyApi;
-import io.tanners.libs.jokester.model.JokeWrapper;
+import io.tanners.libs.backend.myApi.model.Joke;
+//import io.tanners.libs.jokester.model.Joke;
 
 public class MainActivityFragmentRoot extends Fragment {
-    protected MainViewModel mMainViewModel;
+//    protected MainViewModel mMainViewModel;
     protected Context mContext;
-    protected LiveData<JokeWrapper> mWrapper;
+//    protected LiveData<JokeWrapper> mWrapper;
+    protected MutableLiveData<Joke> mJoke;
+    protected static MyApi myApiService = null;
+
 
     public MainActivityFragmentRoot() {
         // Required empty public constructor
@@ -52,6 +43,8 @@ public class MainActivityFragmentRoot extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        new EndpointsAsyncTask<Joke>(createEndpointCallBack()).execute();
     }
 
     @Override
@@ -60,71 +53,91 @@ public class MainActivityFragmentRoot extends Fragment {
         mContext = context;
     }
 
-//    private void setupViewModel() {
-//        mMainViewModel = ViewModelProviders.of(
-//                this,
-//                new MainViewModelFactory(
-//                        getActivity().getApplication(),
-//                        JokeRepository.getInstance(mContext)
-//                )).get(MainViewModel.class);
-//    }
+    private EndpointsAsyncTask.EndpointUtil<Joke> createEndpointCallBack()
+    {
+        return new EndpointsAsyncTask.EndpointUtil<Joke>() {
+            @Override
+            public void onPostDo(Joke mResult) {
+                mJoke.setValue(mResult);
+                Log.i("DATA", mJoke.getValue().getMJoke());
+                // TODO call acivity
 
-//    private void getdata()
-//    {
-//        try {
-//            mMainViewModel.getmRecipes();
+            }
+
+            @Override
+            public Joke onDo() {
+                if(myApiService == null) {  // Only do this once
+                    MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
+                            new AndroidJsonFactory(), null)
+                            // options for running against local devappserver
+                            // - 10.0.2.2 is localhost's IP address in Android emulator
+                            // - turn off compression when running against local devappserver
+                            .setRootUrl("http://10.0.2.2:8080/_ah/api/")
+                            .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                                @Override
+                                public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                                    abstractGoogleClientRequest.setDisableGZipContent(true);
+                                }
+                            });
+                    myApiService = builder.build();
+                }
+
+                try {
+                    return myApiService.sendJoke().execute();
+                } catch (IOException e) {
+                    return null;
+                }
+            }
+        };
+    }
+
+//    private static class EndpointsAsyncTask extends AsyncTask<Void, Void, Joke> {
+//        private static MyApi myApiService = null;
+//        private EndpointUtil mCallback;
 //
-//            mWrapper.observe(getActivity(), new Observer<JokeWrapper>() {
-//                @Override
-//                public void onChanged(@Nullable JokeWrapper jokeWrapper) {
+//        public EndpointsAsyncTask(EndpointUtil mCallback)
+//        {
+//            this.mCallback = mCallback;
+//        }
+//
+//        @Override
+//        protected Joke doInBackground(Void... params) {
+//            if(myApiService == null) {  // Only do this once
+//                MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
+//                        new AndroidJsonFactory(), null)
+//                        // options for running against local devappserver
+//                        // - 10.0.2.2 is localhost's IP address in Android emulator
+//                        // - turn off compression when running against local devappserver
+//                        .setRootUrl("http://10.0.2.2:8080/_ah/api/")
+//                        .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+//                            @Override
+//                            public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+//                                abstractGoogleClientRequest.setDisableGZipContent(true);
+//                            }
+//                        });
+//                myApiService = builder.build();
+//            }
+//
+//            try {
+//                return myApiService.sendJoke().execute().getData();
+//
+//            } catch (IOException e) {
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Joke mResult) {
 //
 //
+//            mJoke.setValue(mResult);
+//        }
 //
-//
-//                }
-//            });
-//
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
+//        public interface EndpointUtil {
+//            public void onPostDo();
+//            public void onDo();
 //        }
 //    }
-
-    private static class EndpointsAsyncTask extends AsyncTask<Integer, Void, JokeWrapper> {
-        private static MyApi myApiService = null;
-        private Context context;
-
-        @Override
-        protected JokeWrapper doInBackground(Integer... params) {
-            if(myApiService == null) {  // Only do this once
-                MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
-                        new AndroidJsonFactory(), null)
-                        // options for running against local devappserver
-                        // - 10.0.2.2 is localhost's IP address in Android emulator
-                        // - turn off compression when running against local devappserver
-                        .setRootUrl("http://10.0.2.2:8080/_ah/api/")
-                        .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                            @Override
-                            public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                                abstractGoogleClientRequest.setDisableGZipContent(true);
-                            }
-                        });
-                myApiService = builder.build();
-            }
-
-            try {
-                return myApiService.sendJoke(params[0]).execute().getData();
-
-            } catch (IOException e) {
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(JokeWrapper mResult) {
-            mData.setValue(mResult);
-        }
-    }
 
 }
 

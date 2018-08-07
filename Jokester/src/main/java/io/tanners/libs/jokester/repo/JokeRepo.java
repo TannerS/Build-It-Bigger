@@ -1,6 +1,7 @@
 package io.tanners.libs.jokester.repo;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -11,25 +12,20 @@ import io.tanners.libs.jokester.model.Joke;
  */
 public class JokeRepo {
 
-    public static HashSet<Joke> getJokes()
+    public static ArrayList<Joke> getJokes()
     {
         Scanner mScanner = new Scanner("../assets/jokes");
 
-        HashSet<Joke> mJokesSet = new HashSet<Joke>();
+        ArrayList<Joke> mJokes = new ArrayList<Joke>();
 
         while(mScanner.hasNext())
         {
             String mLine = mScanner.nextLine();
 
             if(!mLine.isEmpty() || !mLine.equals(" "))
-                mJokesSet.add(new Joke(mLine));
+                mJokes.add(new Joke(mLine));
         }
 
-        return mJokesSet;
+        return mJokes;
     }
-
-//    public static String objToJson(JokeWrapper mWrapper)
-//    {
-//        return (new Gson()).toJson(mWrapper);
-//    }
 }

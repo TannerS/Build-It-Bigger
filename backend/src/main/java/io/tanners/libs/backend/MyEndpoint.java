@@ -4,7 +4,7 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import io.tanners.libs.jokester.Jokester;
-import io.tanners.libs.jokester.model.JokeWrapper;
+import io.tanners.libs.jokester.model.Joke;
 
 /** An endpoint class we are exposing */
 @Api(
@@ -18,8 +18,8 @@ import io.tanners.libs.jokester.model.JokeWrapper;
 )
 public class MyEndpoint {
     @ApiMethod(name = "sendJoke")
-    public JokeWrapper sendJoke(Integer mJokeNumber) {
-        return (new Jokester()).provideJokes();
+    public Joke sendJoke() {
+        return (new Jokester()).provideJoke();
     }
 }
 

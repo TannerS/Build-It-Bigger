@@ -1,20 +1,21 @@
 package io.tanners.libs.jokester;
 
-import java.util.HashSet;
-
+import java.security.SecureRandom;
+import java.util.ArrayList;
 import io.tanners.libs.jokester.model.Joke;
-import io.tanners.libs.jokester.model.JokeWrapper;
 import io.tanners.libs.jokester.repo.JokeRepo;
 
 public class Jokester {
-    public JokeWrapper provideJokes() {
-        JokeWrapper mWrapper = new JokeWrapper();
+    public Joke provideJoke() {
+        return randomize(JokeRepo.getJokes());
+    }
 
-        HashSet<Joke> mJokes =  JokeRepo.getJokes();
-
-        mWrapper.setCount(mJokes.size());
-        mWrapper.setmJokes(mJokes);
-
-        return mWrapper;
+    private Joke randomize(ArrayList<Joke> mJokes)
+    {
+        return mJokes.get(
+                (new SecureRandom()).nextInt(
+                        mJokes.size()
+                )
+        );
     }
 }
