@@ -1,5 +1,7 @@
 package io.tanners.libs.jokester.repo;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,9 +15,12 @@ public class JokeRepo {
 
     public static ArrayList<Joke> getJokes()
     {
-        Scanner mScanner = new Scanner("../assets/jokes");
-
-
+        Scanner mScanner = null;
+        try {
+            mScanner = new Scanner(new File("../assets/jokes"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         ArrayList<Joke> mJokes = new ArrayList<Joke>();
 

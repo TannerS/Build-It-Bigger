@@ -13,17 +13,11 @@ public class Jokester {
 
     private Joke randomize(ArrayList<Joke> mJokes)
     {
+        return mJokes.get(
+                (new SecureRandom()).nextInt(
+                        mJokes.size()
+                )
 
-        System.out.print("DATA:" + mJokes.size());
-
-
-//        return mJokes.get(
-//                (new SecureRandom()).nextInt(
-//                        mJokes.size()
-//                )
-
-//        );
-
-        return new Joke("hello");
+        );
     }
 }

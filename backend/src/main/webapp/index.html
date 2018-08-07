@@ -51,14 +51,14 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1>Hello, Endpoints!</h1>
-                <p>Click button for a joke</p>
+                <p>Want a joke?.</p>
                 <form>
                     <div class="input-group">
-                        <input type="text" class="form-control input-lg" placeholder="Name"
-                               id="nameInput"/>
+                        <!--<input type="text" class="form-control input-lg" placeholder="Name"-->
+                               <!--id="nameInput"/>-->
                         <span class="input-group-btn">
                              <button class="btn btn-default btn-primary btn-group btn-lg"
-                                     type="submit" id="helloButton">Click!</button>
+                                     type="submit" id="helloButton">Joke Me!</button>
                           </span>
                     </div>
                 </form>
@@ -88,19 +88,18 @@
     // A function that attaches a "Say Hello" button click handler
     function enableClick() {
       document.getElementById('helloButton').onclick = function() {
-        var button = document.getElementById('nameInput');
+        <!--var name = document.getElementById('nameInput').value;-->
         gapi.client.myApi.sendJoke().execute(
           function(response) {
             var outputAlertDiv = document.getElementById('outputAlert');
             outputAlertDiv.style.visibility = 'visible';
-
             if (!response.error) {
-              button.innerHTML = response.result.data;
               outputAlertDiv.className = 'alert alert-success';
-              outputAlertDiv.innerHTML = '<h2>' + response.result.data + '</h2>';
+              outputAlertDiv.innerHTML = '<h2>' + 'hi' + '</h2>';
+              <!--outputAlertDiv.innerHTML = '<h2>' + JSON.stringify(response.result.data) + '</h2>';-->
+              <!--outputAlertDiv.innerHTML = '<h2>' + JSON.parse(response.result.data) + '</h2>';-->
             }
             else if (response.error) {
-              button.innerHTML = response.error.code;
               outputAlertDiv.className = 'alert alert-danger';
               outputAlertDiv.innerHTML = '<b>Error Code: </b>' + response.error.code + ' [' + response.error.message + ']';
             }
@@ -125,7 +124,6 @@
       }
       gapi.client.load(apiName, apiVersion, callback, apiRoot);
     }
-
 </script>
 <!--
  Load the Google APIs Client Library for JavaScript
