@@ -22,38 +22,9 @@ public class MainActivityFragment extends MainActivityFragmentRoot {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        mView = inflater.inflate(R.layout.fragment_main_activity, container, false);
-        return mView;
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        Button mJokeButton = mView.findViewById(R.id.findJokeBtn);
-
-//        mJokeButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-       mJokeButton.setOnClickListener(this);
-
-       setUpAds();
-    }
-
-    private void loadJoke()
-    {
-        new EndpointsAsyncTask<JokeBean>(createEndpointCallBack()).execute();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+        setUpAds();
     }
 
     private void setUpAds()
@@ -66,11 +37,6 @@ public class MainActivityFragment extends MainActivityFragmentRoot {
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
         mAdView.loadAd(adRequest);
-    }
-
-    @Override
-    public void onClick(View v) {
-        loadJoke();
     }
 }
 

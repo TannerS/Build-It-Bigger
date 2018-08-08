@@ -1,15 +1,15 @@
 package io.tanners.libs;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-
+import android.view.ViewGroup;
+import android.widget.Button;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -36,6 +36,22 @@ public class MainActivityFragmentRoot extends Fragment implements View.OnClickLi
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        mView = inflater.inflate(R.layout.fragment_main_activity, container, false);
+        return mView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Button mJokeButton = mView.findViewById(R.id.findJokeBtn);
+
+        mJokeButton.setOnClickListener(this);
     }
 
     protected EndpointsAsyncTask.EndpointUtil<JokeBean> createEndpointCallBack()
@@ -77,9 +93,14 @@ public class MainActivityFragmentRoot extends Fragment implements View.OnClickLi
         };
     }
 
+    private void loadJoke()
+    {
+        new EndpointsAsyncTask<JokeBean>(createEndpointCallBack()).execute();
+    }
+
     @Override
     public void onClick(View v) {
-        throw new IllegalStateException("Need to override in child class");
+        loadJoke();
     }
 }
 
