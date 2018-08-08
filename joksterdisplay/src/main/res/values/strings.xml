@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">joksterdisplay</string>
+    <string-array
+        name="color_list">
+        <item>#0277BD</item>
+        <item>#C6FF00</item>
+        <item>#00E676</item>
+        <item>#FF8F00</item>
+        <item>#D84315</item>
+        <item>#651FFF</item>
+    </string-array>
+</resources>

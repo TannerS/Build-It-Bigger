@@ -3,6 +3,7 @@ package io.tanners.libs;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,10 +17,10 @@ import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import java.io.IOException;
 import io.tanners.libs.backend.myApi.MyApi;
 import io.tanners.libs.backend.myApi.model.JokeBean;
+import io.tanners.libs.display.JokeDisplayActivity;
 
 public class MainActivityFragmentRoot extends Fragment implements View.OnClickListener  {
     protected Context mContext;
-    protected MutableLiveData<JokeBean> mJoke;
     protected static MyApi myApiService = null;
     protected View mView;
 
@@ -42,15 +43,11 @@ public class MainActivityFragmentRoot extends Fragment implements View.OnClickLi
         return new EndpointsAsyncTask.EndpointUtil<JokeBean>() {
             @Override
             public void onPostDo(JokeBean mResult) {
-                mJoke = new MutableLiveData<JokeBean>();
-                mJoke.setValue(mResult);
-
-
-
-
-                Log.i("JOKE", mResult.getMJoke());
-                // TODO call acivity
-
+                if(mResult != null) {
+                    Intent mJokeAndLib = new Intent(mContext, JokeDisplayActivity.class);
+                    mJokeAndLib.putExtra(JokeDisplayActivity.JOKSTER_DISPLAY_DATA_KEY, mResult.getMJoke());
+                    startActivity(mJokeAndLib);
+                }
             }
 
             @Override
