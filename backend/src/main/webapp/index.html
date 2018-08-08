@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8"/>
     <title>Hello, Endpoints!</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet"
@@ -88,16 +89,13 @@
     // A function that attaches a "Say Hello" button click handler
     function enableClick() {
       document.getElementById('helloButton').onclick = function() {
-        <!--var name = document.getElementById('nameInput').value;-->
         gapi.client.myApi.sendJoke().execute(
           function(response) {
             var outputAlertDiv = document.getElementById('outputAlert');
             outputAlertDiv.style.visibility = 'visible';
             if (!response.error) {
               outputAlertDiv.className = 'alert alert-success';
-              outputAlertDiv.innerHTML = '<h2>' + 'hi' + '</h2>';
-              <!--outputAlertDiv.innerHTML = '<h2>' + JSON.stringify(response.result.data) + '</h2>';-->
-              <!--outputAlertDiv.innerHTML = '<h2>' + JSON.parse(response.result.data) + '</h2>';-->
+              outputAlertDiv.innerHTML = '<h2>' + JSON.stringify(response.result) + '</h2>';
             }
             else if (response.error) {
               outputAlertDiv.className = 'alert alert-danger';

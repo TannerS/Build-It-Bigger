@@ -18,11 +18,6 @@ public class EndpointsAsyncTask<T> extends AsyncTask<Void, Void, T> {
 
     @Override
     protected void onPostExecute(T mResult) {
-
-
-        if(mResult == null)
-            Log.i("DATA" , "IS NULL");
-
         mCallback.onPostDo(mResult);
     }
 

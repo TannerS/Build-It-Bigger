@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
+
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -15,11 +17,11 @@ import java.io.IOException;
 import io.tanners.libs.backend.myApi.MyApi;
 import io.tanners.libs.backend.myApi.model.JokeBean;
 
-public class MainActivityFragmentRoot extends Fragment {
+public class MainActivityFragmentRoot extends Fragment implements View.OnClickListener  {
     protected Context mContext;
     protected MutableLiveData<JokeBean> mJoke;
     protected static MyApi myApiService = null;
-
+    protected View mView;
 
     public MainActivityFragmentRoot() {
         // Required empty public constructor
@@ -29,28 +31,13 @@ public class MainActivityFragmentRoot extends Fragment {
         return new MainActivityFragmentRoot();
     }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        view = inflater.inflate(R.layout.fragment_main_activity, container, false);
-//        return view;
-//    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        new EndpointsAsyncTask<JokeBean>(createEndpointCallBack()).execute();
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
     }
 
-    private EndpointsAsyncTask.EndpointUtil<JokeBean> createEndpointCallBack()
+    protected EndpointsAsyncTask.EndpointUtil<JokeBean> createEndpointCallBack()
     {
         return new EndpointsAsyncTask.EndpointUtil<JokeBean>() {
             @Override
@@ -61,7 +48,7 @@ public class MainActivityFragmentRoot extends Fragment {
 
 
 
-                Log.i("DATA", mResult.getMJoke());
+                Log.i("JOKE", mResult.getMJoke());
                 // TODO call acivity
 
             }
@@ -91,6 +78,11 @@ public class MainActivityFragmentRoot extends Fragment {
                 }
             }
         };
+    }
+
+    @Override
+    public void onClick(View v) {
+        throw new IllegalStateException("Need to override in child class");
     }
 }
 

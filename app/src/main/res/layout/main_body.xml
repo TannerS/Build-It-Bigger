@@ -19,12 +19,12 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
+        android:id="@+id/findJokeBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/instructions_text_view"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:onClick="tellJoke"
         android:text="@string/button_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

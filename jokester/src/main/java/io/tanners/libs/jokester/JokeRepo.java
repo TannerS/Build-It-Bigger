@@ -1,12 +1,10 @@
-package io.tanners.libs.jokester.repo;
+package io.tanners.libs.jokester;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import io.tanners.libs.jokester.model.Joke;
-
 
 /**
  * This can be any way to get the data, for now let's just keep it simple
@@ -17,7 +15,7 @@ public class JokeRepo {
     {
         Scanner mScanner = null;
         try {
-            mScanner = new Scanner(new File("../assets/jokes"));
+            mScanner = new Scanner(new File("jokester/resources/jokes"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -28,7 +26,7 @@ public class JokeRepo {
         {
             String mLine = mScanner.nextLine();
 
-            if(!mLine.isEmpty() || !mLine.equals(" "))
+            if(!mLine.isEmpty() && !mLine.equals(""))
                 mJokes.add(new Joke(mLine));
         }
 

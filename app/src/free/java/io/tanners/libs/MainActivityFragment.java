@@ -6,11 +6,12 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import io.tanners.libs.backend.myApi.model.JokeBean;
 
 public class MainActivityFragment extends MainActivityFragmentRoot {
-    private View view;
 
     public MainActivityFragment() {
         // Required empty public constructor
@@ -21,22 +22,33 @@ public class MainActivityFragment extends MainActivityFragmentRoot {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_main_activity, container, false);
-        return view;
+        mView = inflater.inflate(R.layout.fragment_main_activity, container, false);
+        return mView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setUpAds();
+
+        Button mJokeButton = mView.findViewById(R.id.findJokeBtn);
+
+//        mJokeButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+       mJokeButton.setOnClickListener(this);
+
+       setUpAds();
+    }
+
+    private void loadJoke()
+    {
+        new EndpointsAsyncTask<JokeBean>(createEndpointCallBack()).execute();
     }
 
     @Override
@@ -46,7 +58,7 @@ public class MainActivityFragment extends MainActivityFragmentRoot {
 
     private void setUpAds()
     {
-        AdView mAdView = (AdView) view.findViewById(R.id.adView);
+        AdView mAdView = (AdView) mView.findViewById(R.id.adView);
         // Create an ad request. Check logcat output for the hashed device ID to
         // get test ads on a physical device. e.g.
         // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
@@ -56,6 +68,10 @@ public class MainActivityFragment extends MainActivityFragmentRoot {
         mAdView.loadAd(adRequest);
     }
 
+    @Override
+    public void onClick(View v) {
+        loadJoke();
+    }
 }
 
 

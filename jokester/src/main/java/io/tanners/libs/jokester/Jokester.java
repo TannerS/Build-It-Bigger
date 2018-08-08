@@ -3,7 +3,6 @@ package io.tanners.libs.jokester;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import io.tanners.libs.jokester.model.Joke;
-import io.tanners.libs.jokester.repo.JokeRepo;
 
 
 public class Jokester {
@@ -17,7 +16,6 @@ public class Jokester {
                 (new SecureRandom()).nextInt(
                         mJokes.size()
                 )
-
         );
     }
 }
