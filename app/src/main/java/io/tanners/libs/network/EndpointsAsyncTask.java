@@ -1,7 +1,6 @@
-package io.tanners.libs;
+package io.tanners.libs.network;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class EndpointsAsyncTask<T> extends AsyncTask<Void, Void, T> {
     private EndpointsAsyncTask.EndpointUtil mCallback;

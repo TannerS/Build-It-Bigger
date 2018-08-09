@@ -71,7 +71,12 @@ dependencies {
     }
 
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
-    testImplementation 'junit:junit:4.12'
     implementation 'com.intuit.sdp:sdp-android:1.0.5'
     implementation project(":joksterdisplay")
+
+    debugImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    debugImplementation 'com.android.support.test.espresso.idling:idling-concurrent:3.0.2'
+    debugImplementation 'com.android.support.test.espresso:espresso-idling-resource:3.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
 }

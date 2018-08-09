@@ -3,9 +3,11 @@ package io.tanners.libs;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +20,14 @@ import java.io.IOException;
 import io.tanners.libs.backend.myApi.MyApi;
 import io.tanners.libs.backend.myApi.model.JokeBean;
 import io.tanners.libs.display.JokeDisplayActivity;
+import io.tanners.libs.network.EndpointsAsyncTask;
+import io.tanners.libs.test.IdlingResourceHelper;
 
 public class MainActivityFragmentRoot extends Fragment implements View.OnClickListener  {
     protected Context mContext;
     protected static MyApi myApiService = null;
     protected View mView;
+    protected AsyncFunctionTester mTestCallBack;
 
     public MainActivityFragmentRoot() {
         // Required empty public constructor
@@ -35,13 +40,20 @@ public class MainActivityFragmentRoot extends Fragment implements View.OnClickLi
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        if (context instanceof AsyncFunctionTester) {
+            mTestCallBack = (AsyncFunctionTester) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement AsyncFunctionTester");
+        }
+
         mContext = context;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_main_activity, container, false);
         return mView;
     }
@@ -50,7 +62,6 @@ public class MainActivityFragmentRoot extends Fragment implements View.OnClickLi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Button mJokeButton = mView.findViewById(R.id.findJokeBtn);
-
         mJokeButton.setOnClickListener(this);
     }
 
@@ -59,11 +70,14 @@ public class MainActivityFragmentRoot extends Fragment implements View.OnClickLi
         return new EndpointsAsyncTask.EndpointUtil<JokeBean>() {
             @Override
             public void onPostDo(JokeBean mResult) {
+
                 if(mResult != null) {
                     Intent mJokeAndLib = new Intent(mContext, JokeDisplayActivity.class);
                     mJokeAndLib.putExtra(JokeDisplayActivity.JOKSTER_DISPLAY_DATA_KEY, mResult.getMJoke());
                     startActivity(mJokeAndLib);
                 }
+
+                mTestCallBack.stopIdlingResource();
             }
 
             @Override
@@ -100,7 +114,14 @@ public class MainActivityFragmentRoot extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
+        mTestCallBack.startIdlingResource();
         loadJoke();
+    }
+
+    public interface AsyncFunctionTester
+    {
+        public void startIdlingResource();
+        public void stopIdlingResource();
     }
 }
 
