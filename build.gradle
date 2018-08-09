@@ -20,3 +20,7 @@ allprojects {
         google()
     }
 }
+
+task setUpAndRunTestSuite(type: GradleBuild) {
+    tasks = [ ':backend:appengineStart', ':app:connectedAndroidTest', ':backend:appengineStop' ]
+}
